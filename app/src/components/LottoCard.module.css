@@ -1,0 +1,20 @@
+.lottoCard {
+  min-width: 60%;
+  display: flex;
+  background-color: rgb(249, 249, 249);
+  margin-bottom: 20px;
+}
+
+.cardDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardContents {
+  padding: 12px;
+}
+
+.lottoIcon {
+  height: auto;
+  width: 70px;
+}
