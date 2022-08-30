@@ -5,5 +5,5 @@ App for getting pcso results and showing it in a more accessible manner.
  - Offline support (PWA)
 
 Split into 
- # `app`: Front-end, react app.
- # `functions`: Backend-end, Firebase functions.
+ - `app`: Front-end, react app.
+ - `functions`: Backend-end, Firebase functions.
