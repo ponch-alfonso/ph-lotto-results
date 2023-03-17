@@ -58,7 +58,7 @@ const pushResults = async (html: any) => {
     const batch = db.batch();
 
     const dateYesterday = new Date();
-    dateYesterday.setDate(dateYesterday.getDate() - 1);
+    dateYesterday.setDate(dateYesterday.getDate() - 14); // TODO:change to 1
 
     for (let row of tableRows) {
         const cells = row.getElementsByTagName("td");
@@ -69,7 +69,7 @@ const pushResults = async (html: any) => {
             continue;
         }
 
-        const docId = generateDocId(dateYesterday, lottoResult.lottoGame);
+        const docId = generateDocId(lottoResult.drawDate.toDate(), lottoResult.lottoGame);
         const docRef = db.collection('lottoResults').doc(docId);
         batch.set(docRef, lottoResult);
 
@@ -129,6 +129,10 @@ const pushResults = async (html: any) => {
             jackpot: parseFloat(jackpot.replace(/,/g, '')),
             isMajor: isMajor
         };
+
+        functions.logger.info('---');
+        functions.logger.info(lottoResult.drawDate);
+        functions.logger.info(drawDate);
 
         return lottoResult;
     }

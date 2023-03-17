@@ -1,19 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .lottoBallsContainer {
   margin: 5px 0;
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.numberCircle {
+  border-radius: 50%;
+  color: white;
+  width: 22px;
+  height: 22px;
+  padding: 6px;
+
+  background: rgb(211,84,0);
+  background: linear-gradient(45deg, rgba(211,84,0,1) 0%, rgba(255,143,0,1) 28%, rgba(255,232,169,1) 100%);
+  /* background: rgb(255, 143, 0, 1); */
+  /* border: 2px solid #666; */
+  text-align: center;
+
+  font-size: 18px;
+  font-family: 'Roboto';
+  margin-left: 3px;
 }
 
 .lottoBall {
-  color: white;
-  font-weight: 600;
-  font-size: 1.5em;
-  text-align: center;
-  display: inline;
-
   border-radius: 50%;
-  padding: 5px;
-  height: 5px;
+  padding: 5%;
+
   margin: 10px 2px;
-  width: 10px;
-  box-shadow: 0px 1px 3px 0px #888888;
+  /* width: 10px; */
+  /* box-shadow: 0px 1px 3px 0px #888888; */
   background: rgb(255, 143, 0, 1);
+  text-align: center;
+
+
 }
+
+.lottoNumber {
+  /* color: white; */
+  font-family: 'Roboto';
+  font-size: 1.5em;
+
+  /* position: absolute;*/
+
+}
+

@@ -30,7 +30,7 @@ const ICON_MAPPING: { [key: string]: string } = {
 }
 
 export const LottoCard: FC<LottoCardProps> = ({ lottoResult: { lottoGame, jackpot, combinations, winners } }) =>
-  <Card className={styles.lottoCard}>
+  <Card className={styles.lottoCard} elevation={0}>
     <CardMedia
       className={styles.lottoIcon}
       image={getIcon(lottoGame)}
@@ -43,27 +43,26 @@ export const LottoCard: FC<LottoCardProps> = ({ lottoResult: { lottoGame, jackpo
         className={styles.cardContent}
         sx={{
           padding: '8px',
-          "&:last-child": {
+          "&: last-child": {
             paddingBottom: '8px',
           }
         }}
       >
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body1">
           {lottoGame}
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="h5" color="#26c281">
           {jackpot.toLocaleString(undefined, {
             style: 'currency',
             currency: 'Php',
-            currencyDisplay: 'narrowSymbol'
+            currencyDisplay: 'narrowSymbol',
+            notation: 'compact',
           })}
         </Typography>
         <LottoBalls combinations={combinations} />
-        <Typography variant="body2" display='block'>
-          Winners: {winners}
-        </Typography>
-      </CardContent>
-    </div>
+
+      </CardContent >
+    </div >
   </Card >
 
 

@@ -29,13 +29,12 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
 
   function getLottoResultsByDate(startDate: Date, endDate: Date) {
     console.debug(`Retrieving lotto results from ${startDate} to ${endDate}`);
-
     const lottosResultCollection = collection(db, "lottoResults");
 
     const q = query(
       lottosResultCollection,
-      where('drawDate', '>=', startDate),
-      where('drawDate', '<=', endDate),
+      where('drawDate', '<', startDate),
+      where('drawDate', '>=', endDate),
       orderBy('drawDate', 'desc')
     );
 
@@ -43,10 +42,10 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
   };
 
   async function updateLottoResults() {
-    const endDate = new Date(fromDate);
-    fromDate.setDate(fromDate.getDate() - WEEK_IN_DAYS);
-    const startDate = fromDate;
-    setFromDate(fromDate);
+    const startDate = new Date(fromDate);
+    const endDate = new Date();
+    endDate.setDate(startDate.getDate() - WEEK_IN_DAYS);
+    setFromDate(endDate);
 
     let snapShot: any; // todo update any -> firebase query result
     try {
@@ -56,8 +55,8 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
       console.log(e);
     }
 
+    console.debug(`${snapShot.size} lotto results from ${startDate} to ${endDate}.`);
     if (snapShot.empty) {
-      console.debug("Snapshot has 0 results - not updating.");
       setHasMore(false);
       return
     }
@@ -70,8 +69,12 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
 
       if (typeof lottoResults.get(lottoResult.drawDate) === 'undefined') {
         lottoResults.set(lottoResult.drawDate, [lottoResult]);
-      } else {
+      } else if (lottoResults.get(lottoResult.drawDate).every(
+        (lt: any) => lt.objectID !== lottoResult.objectID)
+      ) {
         lottoResults.get(lottoResult.drawDate).push(lottoResult);
+      } else {
+        /** Do nothing, already exisits */
       }
     });
 
@@ -102,7 +105,7 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
   }
 
   return (
-    <div>
+    <div style={{ width: "fit-content", margin: "auto" }}>
       <InfiniteScroll
         dataLength={filteredLottoResultsSize}
         next={updateLottoResults}

@@ -1,13 +1,12 @@
 .lottoCard {
-  min-width: 60%;
   display: flex;
   background-color: rgb(249, 249, 249);
   margin-bottom: 20px;
+  width: auto;
 }
 
 .cardDetails {
-  display: flex;
-  flex-direction: column;
+  width: auto;
 }
 
 .cardContents {

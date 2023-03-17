@@ -13,8 +13,8 @@ function App() {
   const [showMinorLottos, setShowMinorLottos] = React.useState(false);
 
   return (
-    <div>
-      <div style={{ flexGrow: '1' }}>
+    <div className="App">
+      <div>
         <MenuBar
           showMinorLottos={showMinorLottos}
           setShowMinorLottos={setShowMinorLottos}
