@@ -12,4 +12,4 @@ node_modules/
 app/build/
 
 # Log files
-# *.log
+**/*.log
