@@ -51,5 +51,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 #### digital envelope routines::unsupported
 
-* Run `export NODE_OPTIONS=--openssl-legacy-provider`
-  * [https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported](so question) 
+- Run `export NODE_OPTIONS=--openssl-legacy-provider`
+  - [https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported](so question)
