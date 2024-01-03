@@ -10,19 +10,11 @@ Backend, Firebase cloud functions, for daily-pcso app.
 firebase emulators:start --project daily-pcso
 ```
 
-#### Triggering the scrapper via an API call:
+- Call the function by using this test URL this link in the browser:
 
-- Add this in `functions/index.js`:
+  - `http://127.0.0.1:5001/daily-pcso/asia-northeast1/testPushYesterdaysResults`.
 
-```js
-exports.addMessage = functions.https.onRequest((req, res) => {
-  pushYesterdaysResults();
-  res.status(200).send("Woohoo");
-});
-```
-
-- Call the API by opening this link in the browser:
-  - `http://127.0.0.1:5001/daily-pcso/us-central1/getResults`.
+- Note: Scheduled functions is not testable locally.
 
 ## Debugging
 

@@ -8,18 +8,27 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-// Used for testing
-exports.getResults = functions.https.onRequest(async (req, res) => {
-  await pushYesterdaysResults();
-  res.status(200).send("Woohoo");
-});
+// http://127.0.0.1:5001/daily-pcso/asia-northeast1/getResults
+exports.testPushYesterdaysResults = functions
+    .region("asia-northeast1")
+    .https.onRequest(async (req, res) => {
+      try {
+        await pushYesterdaysResults();
+      } catch (e) {
+        res.status(500).send(e);
+        return;
+      }
+      res.status(200).send("OK");
+    });
 
-
-// Uncomment when going live, needs blaze plan.
-// exports.pushYesterdaysResults = functions.pubsub.schedule('15 9 * * *').onRun(context => {
-//     pushYesterdaysResults();
-//     return null;
-// })
+// http://127.0.0.1:5001/daily-pcso/asia-northeast1/testPushYesterdaysResults-0
+exports.pushYesterdaysResults = functions
+    .region("asia-northeast1")
+    .pubsub.schedule("15 9 * * *")
+    .onRun(async () => {
+      await pushYesterdaysResults();
+      return null;
+    });
 
 /**
  * Retrieves lotto results for yesterday and adds them to the database.
@@ -39,6 +48,8 @@ async function pushYesterdaysResults(): Promise<void> {
   functions.logger.info(`Getting dates from: ${startDate} to ${endDate}`);
 
   const lottoResults = await getLottoResults();
+
+  functions.logger.debug(`Got ${lottoResults.length} lotto results`);
 
   const batch = db.batch();
 
