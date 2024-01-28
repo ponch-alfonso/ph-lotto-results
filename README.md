@@ -1,4 +1,4 @@
-# daily-pcso
+# Ph Lotto Results
 
 App for getting pcso results and showing it in a more accessible manner.
  - Better UI, UX
