@@ -5,6 +5,10 @@
   width: auto;
 }
 
+.lottoCard:first-child {
+  margin-top: 20px;
+}
+
 .cardDetails {
   width: auto;
 }

@@ -2,115 +2,67 @@ import React, { FC } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { LottoResult } from '../types';
-import { LottoCardsList } from './LottoCardsList';
-import { getDb } from '../db';
+import { LottoResultsFilterState, LottoResult, LottoResultsFilter } from '../utils/types';
+import { getDb } from '../utils/db-helper';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 
+import { LottoCard } from './LottoCard/LottoCard';
+
+import { Box } from '@mui/material';
+import { LottoGame } from '../utils/constants';
+
 interface LottoResultsPageProps {
-  showAllLottos: boolean // TODO: Firebase DB
+  filterState: LottoResultsFilterState 
 }
 
 const WEEK_IN_DAYS = 7;
 
-export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) => {
-  const db = getDb();
-
+export const LottoResultsPage: FC<LottoResultsPageProps> = ({ filterState }) => {
   const [fromDate, setFromDate] = React.useState(new Date());
-  const [lottoResults, setLottoResults] = React.useState(new Map());
   const [hasMore, setHasMore] = React.useState(true);
+  const [lottoResults, setLottoResults] = React.useState<LottoResult[]>([]);
+  const [filteredLottoResults, setFilteredLottoResults] = React.useState<LottoResult[]>([]);
 
   React.useEffect(() => {
-    updateLottoResults();
+    getLottoResults();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filteredLottoResults = filterLottoResults();
-  const filteredLottoResultsSize = getResultSize(filteredLottoResults);
+  React.useEffect(() => {
+    setFilteredLottoResults(getFilteredLottoResults(filterState.filter, lottoResults));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterState.filter, lottoResults]);
 
-  function getLottoResultsByDate(startDate: Date, endDate: Date) {
-    console.debug(`Retrieving lotto results from ${startDate} to ${endDate}`);
-    const lottosResultCollection = collection(db, "lottoResults");
-
-    const q = query(
-      lottosResultCollection,
-      where('drawDate', '<', startDate),
-      where('drawDate', '>=', endDate),
-      orderBy('drawDate', 'desc')
-    );
-
-    return getDocs(q);
-  };
-
-  async function updateLottoResults() {
+  async function getLottoResults() {
+    console.log(`Getting lotto results from ${fromDate} to ${new Date()}`);
     const startDate = new Date(fromDate);
     const endDate = new Date();
     endDate.setDate(startDate.getDate() - WEEK_IN_DAYS);
     setFromDate(endDate);
 
-    let snapShot: any; // todo update any -> firebase query result
-    try {
-      snapShot = await getLottoResultsByDate(startDate, endDate);
-    } catch (e) {
-      console.log('Failed to get results');
-      console.log(e);
-    }
+    const unfilteredLottoResults = await fetchLottoResults(startDate, endDate);
 
-    console.debug(`${snapShot.size} lotto results from ${startDate} to ${endDate}.`);
-    if (snapShot.empty) {
+    if (unfilteredLottoResults.length === 0) {
       setHasMore(false);
       return
     }
 
-    snapShot.forEach((docRef: any) => {
-
-      let lottoResult = docRef.data();
-      lottoResult.drawDate = lottoResult.drawDate.toDate().toJSON();
-      lottoResult.objectID = docRef.id;
-
-      if (typeof lottoResults.get(lottoResult.drawDate) === 'undefined') {
-        lottoResults.set(lottoResult.drawDate, [lottoResult]);
-      } else if (lottoResults.get(lottoResult.drawDate).every(
-        (lt: any) => lt.objectID !== lottoResult.objectID)
-      ) {
-        lottoResults.get(lottoResult.drawDate).push(lottoResult);
-      } else {
-        /** Do nothing, already exisits */
-      }
-    });
-
-    setLottoResults(new Map(lottoResults));
+    setLottoResults(unfilteredLottoResults);
   }
 
-  // TODO: Refactor the names/structure of lottoResults
-  function filterLottoResults() {
-    const filteredLottoResults = new Map(lottoResults);
-    filteredLottoResults.forEach((value, key, map) => {
-      if (showAllLottos === false) {
-        filteredLottoResults.set(
-          key,
-          value.filter((lottoResult: LottoResult) => lottoResult.isMajor)
-        );
-      }
-    })
-
-    return filteredLottoResults;
-  }
-
-  function getResultSize(lottoResults: Map<string, any>) { // deeply nested lottoResults
-    let size = 0;
-    lottoResults.forEach((value, key, map) => {
-      size += value.length;
-    })
-    return size;
-  }
-
+  // TODO: Move this to a separate component: feed
   return (
-    <div style={{ width: "fit-content", margin: "auto" }}>
+    <Box sx={{
+      width: {xs: '100%', sm: '80%'},
+      maxWidth: {xs: '100%', sm: '80%'},
+      margin: 'auto',
+    }}>
       <InfiniteScroll
-        dataLength={filteredLottoResultsSize}
-        next={updateLottoResults}
+        dataLength={filteredLottoResults.length}
+        next={getLottoResults}
         hasMore={hasMore}
         loader={
+          // TODO: Change to skeleton (?)
           <div style={{ textAlign: "center", marginBottom: "10px" }}>
             <CircularProgress />
           </div>
@@ -121,14 +73,66 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ showAllLottos }) =
           </div>
         }
       >
-        {Array.from(filteredLottoResults.keys()).map(drawDate => (
-          <LottoCardsList
-            key={drawDate}
-            date={drawDate}
-            lottoResults={filteredLottoResults.get(drawDate)}
-          />
-        ))}
+          {
+            // TODO: Add logic to insert adds here
+            Array.from(filteredLottoResults).map((lottoResult, index )=> (
+              <LottoCard key={lottoResult.objectID} isFirst={index === 0} lottoResult={lottoResult}/>
+            ))
+          }
       </InfiniteScroll>
-    </div>
+     {/* </div> */}
+    </Box>
   )
 }
+
+function getFilteredLottoResults(filter: LottoResultsFilter, lottoResults: LottoResult[]) : LottoResult[] {
+  const filteredLottoResults = lottoResults.filter((lottoResult: LottoResult) => {
+
+    if (
+      (filter.ultra === true && lottoResult.lottoGame === LottoGame.ULTRA) ||
+      (filter.mega === true && lottoResult.lottoGame === LottoGame.MEGA) ||
+      (filter.super === true && lottoResult.lottoGame === LottoGame.SUPER) ||
+      (filter.lotto === true && lottoResult.lottoGame === LottoGame.LOTTO) ||
+      (filter.grand === true && lottoResult.lottoGame === LottoGame.GRAND) ||
+      (filter.lotto6D === true && lottoResult.lottoGame === LottoGame.LOTTO_6D) ||
+      (filter.lotto4D === true && lottoResult.lottoGame === LottoGame.LOTTO_4D) ||
+      (filter.swertres3D === true && (
+        lottoResult.lottoGame === LottoGame.SWERTRES_3D_2PM ||
+        lottoResult.lottoGame === LottoGame.SWERTRES_3D_5PM ||
+        lottoResult.lottoGame === LottoGame.SWERTRES_3D_9PM
+      )) ||
+      (filter.swertres2D === true && (
+        lottoResult.lottoGame === LottoGame.SWERTRES_2D_2PM ||
+        lottoResult.lottoGame === LottoGame.SWERTRES_2D_5PM ||
+        lottoResult.lottoGame === LottoGame.SWERTRES_2D_9PM
+      ))
+      ) {
+      return true;
+    } 
+
+    return false;
+  });
+
+  return filteredLottoResults;
+}
+
+async function fetchLottoResults(startDate: Date, endDate: Date) : Promise<LottoResult[]> {
+  console.debug(`Retrieving lotto results from ${startDate} to ${endDate}`);
+  
+  const db = getDb();
+  const lottosResultCollection = collection(db, "lottoResults");
+
+  const q = query(
+    lottosResultCollection,
+    where('drawDate', '<', startDate),
+    where('drawDate', '>=', endDate),
+    orderBy('drawDate', 'desc')
+  );
+
+  const snapShot = await getDocs(q);  
+  const lottoResults = snapShot.docs.map((docRef: any) => ({...docRef.data(), objectID: docRef.id}));
+
+  console.debug(`${snapShot.size} lotto results from ${startDate} to ${endDate}.`);
+
+  return lottoResults;
+};
