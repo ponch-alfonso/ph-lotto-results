@@ -13,3 +13,6 @@ app/build/
 
 # Log files
 **/*.log
+
+# Mac files
+**/*.DS_Store
