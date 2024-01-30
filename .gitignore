@@ -16,3 +16,6 @@ app/build/
 
 # Mac files
 **/*.DS_Store
+
+# Env files
+.env

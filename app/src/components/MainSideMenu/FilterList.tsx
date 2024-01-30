@@ -1,8 +1,7 @@
 
-import { Avatar, Checkbox, Collapse, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Avatar, Checkbox, Collapse, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
 import React from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { LottoGame } from '../../utils/constants';

@@ -1,16 +1,14 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence, Firestore } from "firebase/firestore";
 
-// TODO: Move this.
-// See: https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {
-  apiKey: "AIzaSyCP5nIdc-YjC3RVvcI93NZezmce1UfaUNU",
-  authDomain: "daily-pcso.firebaseapp.com",
-  projectId: "daily-pcso",
-  storageBucket: "daily-pcso.appspot.com",
-  messagingSenderId: "511100957286",
-  appId: "1:511100957286:web:eb2ab43e5c511c94edb3a7",
-  measurementId: "G-CXHR50V3CP"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 let app: FirebaseApp;
