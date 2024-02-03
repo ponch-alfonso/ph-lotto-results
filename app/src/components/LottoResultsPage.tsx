@@ -68,6 +68,7 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({ filterState }) => 
           </div>
         }
         endMessage={
+          // TODO: Add image when end of list is reached
           <div style={{ textAlign: "center", marginBottom: "10px" }}>
             <h4>End</h4>
           </div>
