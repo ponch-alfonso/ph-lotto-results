@@ -16,11 +16,13 @@
     "noImplicitAny": true, // recommend by mui
     "noImplicitThis": true, // recommend by mui
     "strictNullChecks": true, // recommend by mui
+    "module": "es2020",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["vite/client"]
   },
   "include": [
     "src"

@@ -18,6 +18,7 @@ Stage 1:
 
 - [x] Cleanup
 - [ ] Deploy APP
+  - [ ] Refactor to Vite or Next.js
 - [ ] Add host name
 
 Stage 2:
@@ -30,7 +31,6 @@ Stage 3:
 
 - [ ] SEO optimize
   - Check lighthouse
-  - Refactor to Vite or Next.js
 
 ### Post MVP:
 
@@ -38,5 +38,6 @@ Maintenance:
 
 - Add test code unit/functional testing.
 - CI/CD: Github actions.
+- Update libraries (ie firebase to latest)
 
 Add features. TBD.
