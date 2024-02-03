@@ -8,19 +8,19 @@ export interface LottoResult {
   jackpot: number;
   winners: number;
   isMajor: boolean;
-};
+}
 
 export interface LottoResultsFilter {
-  ultra : boolean,
-  mega : boolean,
-  super : boolean,
-  lotto : boolean,
-  grand : boolean,
-  lotto6D : boolean,
-  lotto4D : boolean,
-  swertres3D : boolean,
-  swertres2D : boolean,
-  /** 
+  ultra: boolean;
+  mega: boolean;
+  super: boolean;
+  lotto: boolean;
+  grand: boolean;
+  lotto6D: boolean;
+  lotto4D: boolean;
+  swertres3D: boolean;
+  swertres2D: boolean;
+  /**
    * TODO: Other searchs:
    * 1. string search
    * 2. todays results

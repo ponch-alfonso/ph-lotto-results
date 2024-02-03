@@ -11,9 +11,14 @@ interface MainSideMenuProps {
   handleDrawerClose: () => void;
   handleDrawerTransitionEnd: () => void;
   filterState: LottoResultsFilterState;
-};
+}
 
-export default function MainSideMenu({ mobileOpen, handleDrawerClose, handleDrawerTransitionEnd, filterState }: MainSideMenuProps) {
+export default function MainSideMenu({
+  mobileOpen,
+  handleDrawerClose,
+  handleDrawerTransitionEnd,
+  filterState,
+}: MainSideMenuProps) {
   const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState(FooterTextModalType.About);
 
@@ -29,49 +34,69 @@ export default function MainSideMenu({ mobileOpen, handleDrawerClose, handleDraw
         keepMounted: true, // Better open performance on mobile.
       }}
       sx={{
-        display: { xs: 'block', sm: 'block' },
-        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
+        display: { xs: "block", sm: "block" },
+        "& .MuiDrawer-paper": { boxSizing: "border-box", width: DRAWER_WIDTH },
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <Toolbar />
         <FilterList filterState={filterState}></FilterList>
         <Divider />
 
-        <Box sx={{ p: 2, textAlign: 'center', mt: 'auto' }}>
+        <Box sx={{ p: 2, textAlign: "center", mt: "auto" }}>
           <Typography variant="body2" color="text.secondary">
             © {new Date().getFullYear()} &nbsp;
-            <span style={{ color: 'blue' }}>Ph</span>
-            <span style={{ color: 'red' }}>Lotto</span>
-            <span style={{ color: '#f8e521' }}>Results</span>
+            <span style={{ color: "blue" }}>Ph</span>
+            <span style={{ color: "red" }}>Lotto</span>
+            <span style={{ color: "#f8e521" }}>Results</span>
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
-            
-            <Link href="/terms" color="inherit" underline="none" onClick={(event) => {
-              event.preventDefault();
-              setType(FooterTextModalType.Terms);
-              setOpen(true);
-            }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+            }}
+          >
+            <Link
+              href="/terms"
+              color="inherit"
+              underline="none"
+              onClick={(event) => {
+                event.preventDefault();
+                setType(FooterTextModalType.Terms);
+                setOpen(true);
+              }}
+            >
               <Typography variant="body2" color="text.secondary">
                 Terms
               </Typography>
             </Link>
 
-            <Link href="/privacy" color="inherit" underline="none" onClick={(event) => {
-              event.preventDefault();
-              setType(FooterTextModalType.Privacy);
-              setOpen(true);
-            }}>
+            <Link
+              href="/privacy"
+              color="inherit"
+              underline="none"
+              onClick={(event) => {
+                event.preventDefault();
+                setType(FooterTextModalType.Privacy);
+                setOpen(true);
+              }}
+            >
               <Typography variant="body2" color="text.secondary">
                 Privacy
               </Typography>
             </Link>
 
-            <Link href="/contact" color="inherit" underline="none" onClick={(event) => {
-              event.preventDefault();
-              setType(FooterTextModalType.About);
-              setOpen(true);
-            }}>
+            <Link
+              href="/contact"
+              color="inherit"
+              underline="none"
+              onClick={(event) => {
+                event.preventDefault();
+                setType(FooterTextModalType.About);
+                setOpen(true);
+              }}
+            >
               <Typography variant="body2" color="text.secondary">
                 About
               </Typography>

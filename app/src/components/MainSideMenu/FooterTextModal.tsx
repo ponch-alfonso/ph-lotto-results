@@ -1,15 +1,23 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, styled } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  styled,
+} from "@mui/material";
 import React from "react";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import TermsOfUseText from "./TermsOfUseText";
 import AboutText from "./AboutText";
 import PrivacyPolicyText from "./PrivacyPolicyText";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
+  "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
+  "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
   },
 }));
@@ -21,16 +29,19 @@ export enum FooterTextModalType {
 }
 
 interface FooterTextModalProps {
-  type: FooterTextModalType,
-  open: boolean,
-  setOpen: (open: boolean) => void,
+  type: FooterTextModalType;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-export default function FooterTextModal({ type, open, setOpen }: FooterTextModalProps) {
-
+export default function FooterTextModal({
+  type,
+  open,
+  setOpen,
+}: FooterTextModalProps) {
   function handleClose() {
     setOpen(false);
-  };
+  }
 
   return (
     <React.Fragment>
@@ -40,15 +51,15 @@ export default function FooterTextModal({ type, open, setOpen }: FooterTextModal
         open={open}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          {type === FooterTextModalType.Terms && 'Terms of Use'}
-          {type === FooterTextModalType.About && 'About'}
-          {type === FooterTextModalType.Privacy && 'Privacy Policy'}
+          {type === FooterTextModalType.Terms && "Terms of Use"}
+          {type === FooterTextModalType.About && "About"}
+          {type === FooterTextModalType.Privacy && "Privacy Policy"}
         </DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
@@ -57,9 +68,9 @@ export default function FooterTextModal({ type, open, setOpen }: FooterTextModal
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {type === FooterTextModalType.Terms && <TermsOfUseText/>}
-          {type === FooterTextModalType.About && <AboutText/>}
-          {type === FooterTextModalType.Privacy && <PrivacyPolicyText/>}
+          {type === FooterTextModalType.Terms && <TermsOfUseText />}
+          {type === FooterTextModalType.About && <AboutText />}
+          {type === FooterTextModalType.Privacy && <PrivacyPolicyText />}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
