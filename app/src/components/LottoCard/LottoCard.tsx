@@ -74,7 +74,7 @@ export const LottoCard: FC<LottoCardProps> = ({ isFirst, lottoResult: { lottoGam
             {winners} {winners > 1 || winners === 0 ? 'Winners' : 'Winner'}
           </Typography>
           <LottoBalls combinations={combinations} />
-          <Typography variant="h5" component='body' color="#26c281" style={{ backgroundColor: 'inherit' }}>
+          <Typography variant="h5" color="#26c281" style={{ backgroundColor: 'inherit' }}>
             {jackpot.toLocaleString(undefined, {
               style: 'currency',
               currency: 'Php',
@@ -82,7 +82,7 @@ export const LottoCard: FC<LottoCardProps> = ({ isFirst, lottoResult: { lottoGam
               notation: 'standard',
             })}
           </Typography>
-          <Typography variant="body2" component='body' style={{ backgroundColor: 'inherit' }}>
+          <Typography variant="body2" style={{ backgroundColor: 'inherit' }}>
             {formattedDate}
           </Typography>
         </CardContent >
