@@ -1,5 +1,10 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence, Firestore } from "firebase/firestore";
+import {
+  getFirestore,
+  connectFirestoreEmulator,
+  enableIndexedDbPersistence,
+  Firestore,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -8,7 +13,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 let app: FirebaseApp;
@@ -16,12 +21,12 @@ let db: Firestore;
 
 export function initializeDb() {
   if (Object.values(firebaseConfig).some((value) => value === undefined)) {
-    console.error('Firebase config is empty. Please check your .env file.');
+    console.error("Firebase config is empty. Please check your .env file.");
     return;
   }
 
   app = initializeApp(firebaseConfig);
-  console.debug('Firebase initialized.');
+  console.debug("Firebase initialized.");
 }
 
 export function getDb() {
@@ -29,19 +34,17 @@ export function getDb() {
     db = getFirestore(app);
 
     if (window.location.hostname === "localhost") {
-      connectFirestoreEmulator(db, '127.0.0.1', 5002);
+      connectFirestoreEmulator(db, "127.0.0.1", 5002);
     } else {
-      enableIndexedDbPersistence(db)
-        .catch((err) => {
-          // Do nothing here - we won't be able to cache the data, 
-          // but that  should not block the user.
-          console.debug(err);
-        });
+      enableIndexedDbPersistence(db).catch((err) => {
+        // Do nothing here - we won't be able to cache the data,
+        // but that  should not block the user.
+        console.debug(err);
+      });
     }
 
-    console.debug('Firestore initialized.');
+    console.debug("Firestore initialized.");
   }
-
 
   return db;
 }

@@ -1,15 +1,14 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import './App.css';
-import { Container } from '@mui/material';
-import MenuBar from './components/MenuBar';
-import MainSideMenu from './components/MainSideMenu/MainSideMenu';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import "./App.css";
+import { Container } from "@mui/material";
+import MenuBar from "./components/MenuBar";
+import MainSideMenu from "./components/MainSideMenu/MainSideMenu";
 
-import { initializeDb } from './utils/db-helper';
-import { LottoResultsFilter } from './utils/types';
-import { LottoResultsPage } from './components/LottoResultsPage';
-
+import { initializeDb } from "./utils/db-helper";
+import { LottoResultsFilter } from "./utils/types";
+import { LottoResultsPage } from "./components/LottoResultsPage";
 
 initializeDb();
 
@@ -45,11 +44,9 @@ export default function App() {
   };
 
   return (
-    <Box sx={{ backgroundColor: '#f0f2f5', display: 'flex' }}>
+    <Box sx={{ backgroundColor: "#f0f2f5", display: "flex" }}>
       <CssBaseline />
-        <MenuBar
-          handleDrawerToggle={handleDrawerToggle}
-        />
+      <MenuBar handleDrawerToggle={handleDrawerToggle} />
       <Box
         component="nav"
         sx={{ flexShrink: { sm: 0 } }}
@@ -59,29 +56,26 @@ export default function App() {
           mobileOpen={mobileOpen}
           handleDrawerClose={handleDrawerClose}
           handleDrawerTransitionEnd={handleDrawerTransitionEnd}
-          filterState={{filter, setFilter}}
+          filterState={{ filter, setFilter }}
         />
       </Box>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1  }}
-      >
-        <Container  
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        <Container
           sx={{
             marginTop: {
-              xs: '56px',
-              sm: '64px',
+              xs: "56px",
+              sm: "64px",
             },
             maxWidth: {
-              xs: '100%',
-              sm: '60%',
+              xs: "100%",
+              sm: "60%",
             },
             padding: {
-              xs: '0',
+              xs: "0",
             },
           }}
         >
-          <LottoResultsPage filterState={{filter, setFilter}} />
+          <LottoResultsPage filterState={{ filter, setFilter }} />
         </Container>
       </Box>
     </Box>
