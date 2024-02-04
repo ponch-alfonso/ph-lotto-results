@@ -1,6 +1,9 @@
 {
   "name": "daily-pcso",
   "scripts": {
+    "install:app": "cd app && npm install && cd -",
+    "install:functions": "cd functions && npm install && cd -",
+    "install": "npm run install:app && npm run install:functions",
     "build:app": "cd app && npm run build && cd -",
     "build:functions": "cd functions && npm run build && cd -",
     "build": "npm run build:app && npm run build:functions",
