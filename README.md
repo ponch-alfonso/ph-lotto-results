@@ -17,8 +17,8 @@ Split into
 Stage 1:
 
 - [x] Cleanup
-- [ ] Deploy APP
-  - [ ] Refactor to Vite or Next.js
+- [x] Deploy APP
+  - [x] Refactor to Vite or Next.js
 - [ ] Add host name
 
 Stage 2:
