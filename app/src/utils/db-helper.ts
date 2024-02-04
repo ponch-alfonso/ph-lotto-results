@@ -33,8 +33,16 @@ export function getDb() {
   if (db === undefined) {
     db = getFirestore(app);
 
-    if (window.location.hostname === "localhost") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const disableEmulator = urlParams.get("disableEmulator");
+
+    if (
+      (window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1") &&
+      disableEmulator === "false"
+    ) {
       connectFirestoreEmulator(db, "127.0.0.1", 5002);
+      console.debug("Firestore emulator connected.");
     } else {
       enableIndexedDbPersistence(db).catch((err) => {
         // Do nothing here - we won't be able to cache the data,

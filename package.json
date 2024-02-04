@@ -1,9 +1,19 @@
 {
   "name": "daily-pcso",
   "scripts": {
-    "serve": "npm run serve-functions && npm run run start-app",
-    "serve-functions": "cd functions && npm run build && firebase emulators:start --project daily-pcso",
-    "start-app": "cd app && npm run start"
+    "install:app": "cd app && npm install && cd -",
+    "install:functions": "cd functions && npm install && cd -",
+    "install": "npm run install:app && npm run install:functions",
+    "build:app": "cd app && npm run build && cd -",
+    "build:functions": "cd functions && npm run build && cd -",
+    "build": "npm run build:app && npm run build:functions",
+    "emulators": "firebase emulators:start --project daily-pcso",
+    "emulators:build": "npm run build && npm run emulators",
+    "emulators:clean:build": "npm run clean && npm run emulators",
+    "clean:app": "cd app && npm run clean && cd -",
+    "clean:functions": "cd functions && npm run clean && cd -",
+    "clean": "npm run clean:app && npm run clean:functions",
+    "clean:build": "npm run clean && npm run build"
   },
   "engines": {
     "node": "17"
