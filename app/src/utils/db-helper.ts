@@ -39,7 +39,7 @@ export function getDb() {
     if (
       (window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1") &&
-      disableEmulator === "false"
+      disableEmulator !== "true"
     ) {
       connectFirestoreEmulator(db, "127.0.0.1", 5002);
       console.debug("Firestore emulator connected.");

@@ -19,17 +19,19 @@ interface LottoResultsPageProps {
   filterState: LottoResultsFilterState;
 }
 
-const WEEK_IN_DAYS = 7;
+const WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
 
 export const LottoResultsPage: FC<LottoResultsPageProps> = ({
   filterState,
 }) => {
-  const [fromDate, setFromDate] = React.useState(new Date());
+  const [startDate, setStartDate] = React.useState(new Date());
   const [hasMore, setHasMore] = React.useState(true);
   const [lottoResults, setLottoResults] = React.useState<LottoResult[]>([]);
   const [filteredLottoResults, setFilteredLottoResults] = React.useState<
     LottoResult[]
   >([]);
+  const [filteredLottoResultsCount, setFilteredLottoResultsCount] =
+    React.useState<number>(0);
 
   React.useEffect(() => {
     getLottoResults();
@@ -40,24 +42,27 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({
     setFilteredLottoResults(
       getFilteredLottoResults(filterState.filter, lottoResults)
     );
+    setFilteredLottoResultsCount(filteredLottoResults.length);
+    console.debug(
+      `Filtered lotto results: ${filteredLottoResultsCount} / ${lottoResults.length}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterState.filter, lottoResults]);
 
   async function getLottoResults() {
-    console.log(`Getting lotto results from ${fromDate} to ${new Date()}`);
-    const startDate = new Date(fromDate);
-    const endDate = new Date();
-    endDate.setDate(startDate.getDate() - WEEK_IN_DAYS);
-    setFromDate(endDate);
+    const from = new Date(startDate.getTime() - WEEK_IN_MILLISECONDS);
+    const to = startDate;
+    setStartDate(from);
 
-    const unfilteredLottoResults = await fetchLottoResults(startDate, endDate);
+    console.log(`Getting lotto results from ${from} to ${to}`);
+    const unfilteredLottoResults = await fetchLottoResults(from, to);
 
     if (unfilteredLottoResults.length === 0) {
       setHasMore(false);
       return;
     }
 
-    setLottoResults(unfilteredLottoResults);
+    setLottoResults(lottoResults.concat(unfilteredLottoResults));
   }
 
   // TODO: Move this to a separate component: feed
@@ -70,7 +75,7 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({
       }}
     >
       <InfiniteScroll
-        dataLength={filteredLottoResults.length}
+        dataLength={filteredLottoResultsCount}
         next={getLottoResults}
         hasMore={hasMore}
         loader={
@@ -97,7 +102,6 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({
           ))
         }
       </InfiniteScroll>
-      {/* </div> */}
     </Box>
   );
 };
@@ -141,15 +145,13 @@ async function fetchLottoResults(
   startDate: Date,
   endDate: Date
 ): Promise<LottoResult[]> {
-  console.debug(`Retrieving lotto results from ${startDate} to ${endDate}`);
-
   const db = getDb();
   const lottosResultCollection = collection(db, "lottoResults");
 
   const q = query(
     lottosResultCollection,
-    where("drawDate", "<", startDate),
-    where("drawDate", ">=", endDate),
+    where("drawDate", ">", startDate),
+    where("drawDate", "<=", endDate),
     orderBy("drawDate", "desc")
   );
 
