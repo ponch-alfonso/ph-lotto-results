@@ -23,6 +23,13 @@ Stage 1:
 
 Stage 2:
 
+- [ ] Configure app check
+  - [ ] Add limits on firebase
+  - [ ] Add reporting when function fails
+- [ ] Cleanups
+  - [ ] Check names, meta tags
+  - [ ] thumbnail
+  - [ ] Add logos
 - [ ] Add Ads
 - [ ] Link users from FB
 - [ ] Get old data

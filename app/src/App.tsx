@@ -47,11 +47,7 @@ export default function App() {
     <Box sx={{ backgroundColor: "#f0f2f5", display: "flex" }}>
       <CssBaseline />
       <MenuBar handleDrawerToggle={handleDrawerToggle} />
-      <Box
-        component="nav"
-        sx={{ flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ flexShrink: { sm: 0 } }}>
         <MainSideMenu
           mobileOpen={mobileOpen}
           handleDrawerClose={handleDrawerClose}
