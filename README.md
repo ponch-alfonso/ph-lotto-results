@@ -14,37 +14,29 @@ Split into
 
 ### MVP:
 
-Stage 1:
-
 - [x] Cleanup
 - [x] Deploy APP
   - [x] Refactor to Vite or Next.js
-- [ ] Add host name
-
-Stage 2:
-
-- [ ] Configure app check
-  - [ ] Add limits on firebase
-  - [ ] Add reporting when function fails
-- [ ] Cleanups
-  - [ ] Check names, meta tags
-  - [ ] thumbnail
-  - [ ] Add logos
-- [ ] Add Ads
-- [ ] Link users from FB
-- [ ] Get old data
-
-Stage 3:
-
-- [ ] SEO optimize
-  - Check lighthouse
+- [ ] Add host name #23
+- [x] Configure app check
+  - [x] Add limits on firebase:
+    - Only budgets - are not always hard limits.
+  - [x] Add reporting when function fails -
+    - Add email notification, install google cloud app
+- [ ] Cleanups #24
+- [ ] Add Ads #25
+- [ ] Show current date as waiting results #27
+- [ ] Get old data #26
+- [ ] SEO optimize #29
 
 ### Post MVP:
 
-Maintenance:
+#### Maintenance:
 
 - Add test code unit/functional testing.
 - CI/CD: Github actions.
 - Update libraries (ie firebase to latest)
 
-Add features. TBD.
+#### Features:
+
+- Add notifications

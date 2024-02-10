@@ -11,17 +11,32 @@ import { LottoBalls } from "./LottoBalls";
 import styles from "./LottoCard.module.css";
 import { getLottoIcon } from "../../utils/icon-helper";
 import React from "react";
+import { Skeleton } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 
-interface LottoCardProps {
+type LottoCardProps = {
   isFirst: boolean;
-  lottoResult: LottoResult;
-}
+} & (
+  | {
+      isLoading: true;
+      lottoResult?: undefined;
+    }
+  | {
+      isLoading: false;
+      lottoResult: LottoResult;
+    }
+);
 
 export const LottoCard: FC<LottoCardProps> = React.memo(
-  ({
-    isFirst,
-    lottoResult: { lottoGame, jackpot, combinations, winners, drawDate },
-  }) => {
+  ({ isFirst, isLoading, lottoResult }) => {
+    const {
+      lottoGame = "",
+      jackpot = 0,
+      combinations = [],
+      winners = 0,
+      drawDate = Timestamp.now(),
+    } = isLoading ? {} : lottoResult;
+
     const formattedDate = drawDate
       .toDate()
       .toLocaleDateString(navigator.language, {
@@ -31,7 +46,6 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
         day: "numeric",
       });
 
-    // TODO: make contents responsive
     return (
       <Card
         elevation={0}
@@ -46,21 +60,32 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
           maxWidth: "100vw",
         }}
       >
-        <CardMedia
-          image={getLottoIcon(lottoGame)}
-          sx={{
-            backgroundSize: "contain",
-            height: "auto",
-            width: {
-              xs: "70px",
-              sm: "150px",
-            },
-            margin: {
-              xs: "10px",
-              sm: "20px",
-            },
-          }}
-        />
+        {isLoading ? (
+          <Skeleton
+            variant="rounded"
+            sx={{
+              height: "auto",
+              width: "70px",
+              margin: {
+                xs: "10px",
+                sm: "20px",
+              },
+            }}
+          />
+        ) : (
+          <CardMedia
+            image={getLottoIcon(lottoGame)}
+            sx={{
+              backgroundSize: "contain",
+              height: "auto",
+              width: "70px",
+              margin: {
+                xs: "10px",
+                sm: "20px",
+              },
+            }}
+          />
+        )}
         <div className={styles.cardDetails}>
           <CardContent
             className={styles.cardContent}
@@ -71,28 +96,41 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
               },
             }}
           >
-            <Typography variant="h6">{lottoGame}</Typography>
+            <Typography variant="h6">
+              {isLoading ? <Skeleton /> : lottoGame}
+            </Typography>
             <Typography
               variant="body2"
               style={winners > 0 ? { fontWeight: "bold", color: "red" } : {}}
             >
-              {winners} {winners > 1 || winners === 0 ? "Winners" : "Winner"}
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                <>
+                  {winners}{" "}
+                  {winners > 1 || winners === 0 ? "Winners" : "Winner"}
+                </>
+              )}{" "}
             </Typography>
-            <LottoBalls combinations={combinations} />
+            <LottoBalls isLoading={isLoading} combinations={combinations} />
             <Typography
               variant="h5"
               color="#26c281"
               style={{ backgroundColor: "inherit" }}
             >
-              {jackpot.toLocaleString(undefined, {
-                style: "currency",
-                currency: "Php",
-                currencyDisplay: "narrowSymbol",
-                notation: "standard",
-              })}
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                jackpot.toLocaleString(undefined, {
+                  style: "currency",
+                  currency: "Php",
+                  currencyDisplay: "narrowSymbol",
+                  notation: "standard",
+                })
+              )}
             </Typography>
             <Typography variant="body2" style={{ backgroundColor: "inherit" }}>
-              {formattedDate}
+              {isLoading ? <Skeleton /> : formattedDate}
             </Typography>
           </CardContent>
         </div>
