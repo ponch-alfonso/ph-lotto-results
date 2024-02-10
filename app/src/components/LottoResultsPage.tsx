@@ -20,6 +20,7 @@ interface LottoResultsPageProps {
 }
 
 const WEEK_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000;
+const DEFAULT_LOTTO_RESULTS_COUNT = 6;
 
 export const LottoResultsPage: FC<LottoResultsPageProps> = ({
   filterState,
@@ -69,21 +70,19 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({
   return (
     <Box
       sx={{
-        width: { xs: "100%", sm: "80%" },
+        width: { xs: "100%", sm: "fit-content" },
         maxWidth: { xs: "100%", sm: "80%" },
         margin: "auto",
+        marginTop: "10px",
       }}
     >
       <InfiniteScroll
         dataLength={filteredLottoResultsCount}
         next={getLottoResults}
         hasMore={hasMore}
-        loader={
-          // TODO: Change to skeleton (?)
-          <div style={{ textAlign: "center", marginBottom: "10px" }}>
-            <CircularProgress />
-          </div>
-        }
+        loader={[...Array(DEFAULT_LOTTO_RESULTS_COUNT)].map((_, i) => (
+          <LottoCard key={i} isFirst={i == 0} isLoading={true} />
+        ))}
         endMessage={
           // TODO: Add image when end of list is reached
           <div style={{ textAlign: "center", marginBottom: "10px" }}>
@@ -97,6 +96,7 @@ export const LottoResultsPage: FC<LottoResultsPageProps> = ({
             <LottoCard
               key={lottoResult.objectID}
               isFirst={index === 0}
+              isLoading={false}
               lottoResult={lottoResult}
             />
           ))
