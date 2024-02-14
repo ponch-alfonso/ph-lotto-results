@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 192 192" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="basic" vectornator:layerName="basic">
+<path d="M96 14.3888C142.944 14.3888 181 50.9268 181 95.9988C181 141.071 142.944 177.609 96 177.609" fill="#0000ff" fill-rule="nonzero" opacity="1" stroke="#ffff00" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" vectornator:layerName="Oval 1"/>
+<path d="M96 14.3888C49.0558 14.3888 11 50.9268 11 95.9988C11 141.071 49.0558 177.609 96 177.609" fill="#ff0000" fill-rule="nonzero" opacity="1" stroke="#ffff00" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" vectornator:layerName="Curve 1"/>
+<path d="M96 172.198L79.0641 136.785L41.9863 149.88L55.1132 112.893L19.613 95.9988L55.1132 79.1044L41.9863 42.1175L79.0641 55.2122L96 19.7991L112.936 55.2122L150.014 42.1175L136.887 79.1044L172.387 95.9988L136.887 112.893L150.014 149.88L112.936 136.785L96 172.198Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#ffff00" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" vectornator:layerName="Star 1"/>
+</g>
+</svg>
