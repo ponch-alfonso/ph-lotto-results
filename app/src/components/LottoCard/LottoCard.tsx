@@ -115,7 +115,7 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
             <LottoBalls isLoading={isLoading} combinations={combinations} />
             <Typography
               variant="h5"
-              color="#26c281"
+              color="#118C4F"
               style={{ backgroundColor: "inherit" }}
             >
               {isLoading ? (
