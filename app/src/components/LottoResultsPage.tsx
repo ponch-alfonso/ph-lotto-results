@@ -7,7 +7,7 @@ import {
   LottoResult,
   LottoResultsFilter,
 } from "../utils/types";
-import { getDb } from "../utils/db-helper";
+import { getFirestoreInstance } from "../utils/firebase-helper";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 import { LottoCard } from "./LottoCard/LottoCard";
@@ -145,8 +145,8 @@ async function fetchLottoResults(
   startDate: Date,
   endDate: Date
 ): Promise<LottoResult[]> {
-  const db = getDb();
-  const lottosResultCollection = collection(db, "lottoResults");
+  const firestore = getFirestoreInstance();
+  const lottosResultCollection = collection(firestore, "lottoResults");
 
   const q = query(
     lottosResultCollection,
