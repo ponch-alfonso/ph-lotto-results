@@ -6,11 +6,11 @@ import { Container } from "@mui/material";
 import MenuBar from "./components/MenuBar";
 import MainSideMenu from "./components/MainSideMenu/MainSideMenu";
 
-import { initializeDb } from "./utils/db-helper";
+import { initializeFirebase } from "./utils/firebase-helper";
 import { LottoResultsFilter } from "./utils/types";
 import { LottoResultsPage } from "./components/LottoResultsPage";
 
-initializeDb();
+initializeFirebase();
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -23,7 +23,7 @@ export default function App() {
     lotto: true,
     grand: true,
     lotto6D: true,
-    lotto4D: true,
+    lotto4D: false,
     swertres3D: false,
     swertres2D: false,
   });

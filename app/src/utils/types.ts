@@ -1,4 +1,5 @@
 import { firestore } from "firebase-admin";
+import { env } from "process";
 
 export interface LottoResult {
   objectID: number;
@@ -32,3 +33,5 @@ export interface LottoResultsFilterState {
   filter: LottoResultsFilter;
   setFilter: (filter: LottoResultsFilter) => void;
 }
+
+export type environment = "development" | "production" | "test";
