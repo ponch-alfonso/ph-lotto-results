@@ -2,13 +2,12 @@ import { firestore } from "firebase-admin";
 import { env } from "process";
 
 export interface LottoResult {
-  objectID: number;
+  objectID: string;
   lottoGame: string;
-  combinations: string[];
+  combinations: string[] | undefined[];
   drawDate: firestore.Timestamp;
-  jackpot: number;
-  winners: number;
-  isMajor: boolean;
+  jackpot?: number;
+  winners?: number;
 }
 
 export interface LottoResultsFilter {
