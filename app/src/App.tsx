@@ -44,7 +44,7 @@ export default function App() {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#f0f2f5", display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <MenuBar handleDrawerToggle={handleDrawerToggle} />
       <Box component="nav" sx={{ flexShrink: { sm: 0 } }}>
