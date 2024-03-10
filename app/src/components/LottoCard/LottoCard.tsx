@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,41 +16,37 @@ import { Timestamp } from "firebase/firestore";
 
 type LottoCardProps = {
   isFirst: boolean;
-} & (
-  | {
-      isLoading: true;
-      lottoResult?: undefined;
-    }
-  | {
-      isLoading: false;
-      lottoResult: LottoResult;
-    }
-);
+  lottoResult?: LottoResult;
+};
+
+type LottoCardSubHeaderProps = {
+  winners: number | undefined;
+  showWaitingForResults?: boolean;
+};
+
+type LottoCardJackpotProps = {
+  jackpot: number | undefined;
+};
 
 export const LottoCard: FC<LottoCardProps> = React.memo(
-  ({ isFirst, isLoading, lottoResult }) => {
-    const {
-      lottoGame = "",
-      jackpot = 0,
-      combinations = [],
-      winners = 0,
-      drawDate = Timestamp.now(),
-    } = isLoading ? {} : lottoResult;
+  ({ isFirst, lottoResult }) => {
+    const { lottoGame, combinations, jackpot, winners, drawDate } =
+      lottoResult ?? {};
 
     const formattedDate = drawDate
-      .toDate()
-      .toLocaleDateString(navigator.language, {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+      ? drawDate.toDate().toLocaleDateString(navigator.language, {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : undefined;
 
     return (
       <Card
         elevation={0}
         sx={{
-          backgroundColor: winners > 0 ? "#fffee0" : "#ffffff",
+          backgroundColor: (winners || 0) > 0 ? "#fffee0" : "#ffffff",
           borderRadius: "max(0px, min(8px, (100vw - 4px - 100%) * 9999)) / 8px",
           boxShadow: "0 1px 4px rgba(0, 0, 0, 0.15)",
           display: "flex",
@@ -60,10 +56,11 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
           maxWidth: "100vw",
         }}
       >
-        {isLoading ? (
-          <Skeleton
-            variant="rounded"
+        {lottoGame !== undefined ? (
+          <CardMedia
+            image={getLottoIcon(lottoGame)}
             sx={{
+              backgroundSize: "contain",
               height: "auto",
               width: "70px",
               margin: {
@@ -73,10 +70,9 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
             }}
           />
         ) : (
-          <CardMedia
-            image={getLottoIcon(lottoGame)}
+          <Skeleton
+            variant="rounded"
             sx={{
-              backgroundSize: "contain",
               height: "auto",
               width: "70px",
               margin: {
@@ -97,40 +93,24 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
             }}
           >
             <Typography variant="h6">
-              {isLoading ? <Skeleton /> : lottoGame}
+              {lottoGame ? lottoGame : <Skeleton />}
             </Typography>
-            <Typography
-              variant="body2"
-              style={winners > 0 ? { fontWeight: "bold", color: "red" } : {}}
-            >
-              {isLoading ? (
-                <Skeleton />
-              ) : (
-                <>
-                  {winners}{" "}
-                  {winners > 1 || winners === 0 ? "Winners" : "Winner"}
-                </>
-              )}{" "}
-            </Typography>
-            <LottoBalls isLoading={isLoading} combinations={combinations} />
-            <Typography
-              variant="h5"
-              color="#118C4F"
-              style={{ backgroundColor: "inherit" }}
-            >
-              {isLoading ? (
-                <Skeleton />
-              ) : (
-                jackpot.toLocaleString(undefined, {
-                  style: "currency",
-                  currency: "Php",
-                  currencyDisplay: "narrowSymbol",
-                  notation: "standard",
-                })
-              )}
-            </Typography>
+
+            <LottoCardSubHeader
+              winners={winners}
+              showWaitingForResults={true}
+            />
+
+            {combinations ? (
+              <LottoBalls combinations={combinations} />
+            ) : (
+              <LottoBalls combinations={Array(6).fill(undefined)} />
+            )}
+
+            <LottoCardJackpot jackpot={jackpot} />
+
             <Typography variant="body2" style={{ backgroundColor: "inherit" }}>
-              {isLoading ? <Skeleton /> : formattedDate}
+              {formattedDate ? formattedDate : <Skeleton />}
             </Typography>
           </CardContent>
         </div>
@@ -138,3 +118,55 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
     );
   }
 );
+
+const LottoCardSubHeader: FC<LottoCardSubHeaderProps> = ({
+  winners,
+  showWaitingForResults,
+}) => {
+  const subHeader =
+    winners === undefined
+      ? "Waiting for the draw result..."
+      : winners === 1
+        ? `${winners} Jackpot winner`
+        : `${winners} Jackpot winners`;
+
+  return (
+    <Typography
+      variant="body2"
+      style={
+        winners === undefined
+          ? { fontStyle: "italic" }
+          : winners > 0
+            ? { fontWeight: "bold", color: "red" }
+            : {}
+      }
+    >
+      {winners === undefined && !showWaitingForResults ? (
+        <Skeleton sx={{ maxWidth: "75%" }} />
+      ) : (
+        <>{subHeader}</>
+      )}
+    </Typography>
+  );
+};
+
+const LottoCardJackpot: FC<LottoCardJackpotProps> = ({ jackpot }) => {
+  return (
+    <Typography
+      variant="h5"
+      color="#118C4F"
+      style={{ backgroundColor: "inherit" }}
+    >
+      {jackpot !== undefined ? (
+        jackpot.toLocaleString(undefined, {
+          style: "currency",
+          currency: "Php",
+          currencyDisplay: "narrowSymbol",
+          notation: "standard",
+        })
+      ) : (
+        <Skeleton sx={{ maxWidth: "85%" }} />
+      )}
+    </Typography>
+  );
+};
