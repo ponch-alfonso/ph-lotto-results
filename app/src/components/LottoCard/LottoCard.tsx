@@ -48,7 +48,7 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
         sx={{
           backgroundColor: (winners || 0) > 0 ? "#fffee0" : "#ffffff",
           borderRadius: "max(0px, min(8px, (100vw - 4px - 100%) * 9999)) / 8px",
-          boxShadow: "0 1px 4px rgba(0, 0, 0, 0.15)",
+          border: "thin solid #DFE6E9",
           display: "flex",
           marginBottom: "10px",
           marginTop: isFirst ? "10px" : "0px",
