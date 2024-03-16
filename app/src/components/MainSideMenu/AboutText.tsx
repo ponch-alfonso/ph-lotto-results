@@ -1,18 +1,20 @@
 import { Typography } from "@mui/material";
 
+import gcash_image from "../../assets/gcash.jpg";
+
 export default function AboutText() {
   // TODO: Add email, logo, logo of tools, socials
   return (
     <div>
       <Typography gutterBottom style={{ fontWeight: "bold" }}>
-        PhLottoResult: Where luck clicks into play!
+        PhLottoResult: Where luck clicks into play! ⚡️
       </Typography>
       <p>
         <Typography gutterBottom>
           Ever chased that jackpot dream? We all have! This little project is a
           passion project where we tinker with React, Progressive Web Apps
           (PWAs), and Firebase to bring you the fastest, smoothest way to check
-          those PCSO results. ⚡️
+          those PCSO results.
         </Typography>
       </p>
       <p>
@@ -27,15 +29,38 @@ export default function AboutText() {
         </Typography>
       </p>
       <p>
-        <Typography gutterBottom>
-          Got a question or suggestion? Shoot us a message - we're all ears (and
-          maybe even have a lucky number or two to share).
+        <Typography
+          gutterBottom
+          style={{ fontWeight: "bold", marginBottom: "20px" }}
+        >
+          Enjoying the app? Consider fueling our coding sessions with a cup of
+          coffee ☕️. Who knows? It might just be your lucky charm! 🍀
         </Typography>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <a href={gcash_image} download>
+            <img
+              src={gcash_image}
+              alt="Gcash QR code for donations"
+              style={{ width: "200px" }}
+            />
+          </a>
+        </div>
       </p>
       <p>
-        <Typography gutterBottom style={{ fontWeight: "bold" }}>
-          Here's to chasing our dreams (and maybe winning big while we're at
-          it)!
+        <p>
+          <Typography gutterBottom style={{ fontWeight: "bold" }}>
+            Got a question or suggestion? 🤔
+          </Typography>
+        </p>
+        <Typography gutterBottom>
+          Shoot us a message - we're all ears (and maybe even have a lucky
+          number or two to share).
         </Typography>
       </p>
     </div>

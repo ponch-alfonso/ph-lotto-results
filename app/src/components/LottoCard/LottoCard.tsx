@@ -50,8 +50,8 @@ export const LottoCard: FC<LottoCardProps> = React.memo(
           borderRadius: "max(0px, min(8px, (100vw - 4px - 100%) * 9999)) / 8px",
           border: "thin solid #DFE6E9",
           display: "flex",
-          marginBottom: "10px",
-          marginTop: isFirst ? "10px" : "0px",
+          marginBottom: { xs: "0px", sm: "10px" },
+          marginTop: { xs: "0px", sm: isFirst ? "10px" : "0px" },
           width: "auto",
           maxWidth: "100vw",
         }}
